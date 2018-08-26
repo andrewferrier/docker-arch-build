@@ -1,4 +1,4 @@
-FROM base/devel:minimal
+FROM base/devel
 
 MAINTAINER Spencer Rinehart <anubis@overthemonkey.com>
 
