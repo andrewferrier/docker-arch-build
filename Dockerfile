@@ -19,26 +19,31 @@ RUN chown build /deps
 WORKDIR /deps
 USER build
 
-RUN mkdir /deps/package-query
-WORKDIR /deps/package-query
-RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
-RUN tar xzvf package-query.tar.gz
-WORKDIR /deps/package-query/package-query
+RUN gpg --recv-keys 1EB2638FF56C0C53
+
+ENV PATH "$PATH:/usr/bin/core_perl"
+
+RUN mkdir /deps/cower
+WORKDIR /deps/cower
+RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/cower.tar.gz
+RUN tar xzvf cower.tar.gz
+WORKDIR /deps/cower/cower
 RUN makepkg --force
 
 USER root
-RUN pacman -U --noconfirm /deps/package-query/package-query/package-query-*.pkg.tar.xz
+RUN pacman -U --noconfirm /deps/cower/cower/cower-*.pkg.tar.xz
+RUN pacman -S --noconfirm expac
 USER build
 
-RUN mkdir /deps/yaourt
-WORKDIR /deps/yaourt
-RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
-RUN tar xzvf yaourt.tar.gz
-WORKDIR /deps/yaourt/yaourt
+RUN mkdir /deps/pacaur
+WORKDIR /deps/pacaur
+RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/pacaur.tar.gz
+RUN tar xzvf pacaur.tar.gz
+WORKDIR /deps/pacaur/pacaur
 RUN makepkg --force
 
 USER root
-RUN pacman -U --noconfirm /deps/yaourt/yaourt/yaourt-*.pkg.tar.xz
+RUN pacman -U --noconfirm /deps/pacaur/pacaur/pacaur-*.pkg.tar.xz
 USER build
 
 USER root
