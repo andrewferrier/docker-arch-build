@@ -52,4 +52,4 @@ RUN chown build /package
 WORKDIR /package
 USER build
 
-CMD ["makepkg", "--force"]
+CMD ["makepkg", "--force", "--skipinteg"]
