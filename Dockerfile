@@ -1,4 +1,4 @@
-FROM base/devel
+FROM archlinux/base
 
 MAINTAINER Spencer Rinehart <anubis@overthemonkey.com>
 
