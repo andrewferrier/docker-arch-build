@@ -23,16 +23,23 @@ RUN gpg --recv-keys 1EB2638FF56C0C53
 
 ENV PATH "$PATH:/usr/bin/core_perl"
 
-RUN mkdir /deps/cower
-WORKDIR /deps/cower
-RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/cower.tar.gz
-RUN tar xzvf cower.tar.gz
-WORKDIR /deps/cower/cower
+USER root
+RUN pacman -S --noconfirm jq
+RUN pacman -S --noconfirm expac
+RUN pacman -S --noconfirm meson
+RUN pacman -S --noconfirm gtest
+RUN pacman -S --noconfirm gmock
+USER build
+
+RUN mkdir /deps/auracle-git
+WORKDIR /deps/auracle-git
+RUN wget https://aur.archlinux.org/cgit/aur.git/snapshot/auracle-git.tar.gz
+RUN tar xzvf auracle-git.tar.gz
+WORKDIR /deps/auracle-git/auracle-git
 RUN makepkg --force
 
 USER root
-RUN pacman -U --noconfirm /deps/cower/cower/cower-*.pkg.tar.xz
-RUN pacman -S --noconfirm expac
+RUN pacman -U --noconfirm /deps/auracle-git/auracle-git/auracle-git*.pkg.tar.xz
 USER build
 
 RUN mkdir /deps/pacaur
